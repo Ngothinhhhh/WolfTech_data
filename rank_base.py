@@ -64,7 +64,7 @@ possible_num_of_ratings = final_ratings_matrix.shape[0] * final_ratings_matrix.s
 print('possible_num_of_ratings = ', possible_num_of_ratings)
 
 
-############ MATRIX FOR CALCULATE RANK BASE RATING : final_rating
+############ =DataFrame FOR CALCULATE RANK BASE RATING : final_rating
 #calculate the average rating for each product
 average_rating = df_final.groupby('product_id').mean()["rating"]
 #Calculate the count of rating for each product  

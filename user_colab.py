@@ -70,7 +70,7 @@ final_ratings_matrix['user_index'] = np.arange(0, final_ratings_matrix.shape[0])
 final_ratings_matrix.set_index(['user_index'], inplace=True)
 
 # Actual ratings given by users
-print(final_ratings_matrix.head())
+print(final_ratings_matrix.head(12))
 
 
 # and now, we will change the matrix into the Normalize Rating matrix ( by use per value of vector is subtracted for mean() of vector value) 
@@ -85,7 +85,7 @@ def normalize_row(row, mean):
 normalized_matrix = final_ratings_matrix.apply(lambda row: normalize_row(row, row_means[row.name]), axis=1)
 
 print("NORMALIZE_MATRIX")
-print(normalized_matrix.head())
+print(normalized_matrix.head(12))
 
 #create a copy normalize_matrix
 similarity_matrix = pd.DataFrame(index=normalized_matrix.index, columns=normalized_matrix.index)
@@ -110,7 +110,7 @@ def top_sim_user(user_index, similarity_matrix, k=5):
     top_similiar_user = user_similiar_list.head(k)
     return top_similiar_user
 
-print(top_sim_user(0,similarity_matrix,5))
+print(top_sim_user(9,similarity_matrix,5))
 # print(normalized_matrix.head(8))
 # similarity_matrix.head()
 
@@ -134,6 +134,11 @@ def ppredict_ratings_matrix(normalized_matrix, similarity_matrix, k=2):
 
 predict_ratings_matrix = pd.DataFrame(ppredict_ratings_matrix(normalized_matrix, similarity_matrix,2))
 print(predict_ratings_matrix.head(3))
+
+rmse_all = np.sqrt(mean_squared_error(normalized_matrix, predict_ratings_matrix))
+print(f'RMSE cho tất cả các phần tử: {rmse_all:.4f}')
+
+
 
 # user_rating = final_ratings_matrix.loc[0,:]
 # user_predict = predict_ratings_matrix.loc[0,:]

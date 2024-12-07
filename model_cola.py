@@ -89,6 +89,7 @@ final_ratings_sparse = csr_matrix(normalized_matrix.values)
 print(final_ratings_sparse)
 #U, s, Vt = svds(final_ratings_sparse, k = 5)
  # here k is the number of latent features - Những đặc trưng này không thể quan sát trực tiếp nhưng được suy ra từ các mẫu trong dữ liệu.
+#Giảm kích thước dữ liệu mà vẫn giữ lại phần lớn thông tin quan trọng.
 
 U, s, Vt = svds(final_ratings_sparse, k=min(final_ratings_sparse.shape)-1)
 explained_variance = np.cumsum(s[::-1] ** 2) / np.sum(s ** 2)
@@ -98,7 +99,7 @@ U, s, Vt = svds(final_ratings_sparse, k=k)
 
 
 # Construct diagonal array in SVD
-sigma = np.diag(s)
+sigma = np.diag(s) #vector giá trị kì dị
 U.shape
 sigma.shape
 Vt.shape
@@ -131,7 +132,7 @@ def recommend_items(user_index, interactions_matrix, preds_matrix, num_recommend
     temp = temp.set_index('Recommended Products')
     
     # Filtering the dataframe where actual ratings are 0 which implies that the user has not interacted with that product
-    temp = temp.loc[temp.user_ratings == 0]   
+    temp = temp.loc[temp.user_ratings == 0] #Lọc DataFrame để chỉ lấy những dòng mà user_ratings bằng 0, tức là những sản phẩm mà người dùng chưa tương tác.   
     
     # Recommending products with top predicted ratings
     temp = temp.sort_values('user_predictions', ascending=False)  # Sort the dataframe by user_predictions in descending order
@@ -170,9 +171,6 @@ def top_n_products(n):
 ########################## COLABORATIVE (USER-USER)
 
 ## recommender_product()
-
-
-
 
 
 
